@@ -1,0 +1,3 @@
+# Please replace this file content with encrypted content from: (keyword: "development.json")
+# https://tokopedia.atlassian.net/wiki/spaces/SA/pages/831624598/Google+Secret+Manager+for+Engineer
+# This file SHOULD be gitignored!

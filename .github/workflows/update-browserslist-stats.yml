@@ -1,0 +1,65 @@
+name: 'Update Browserslist Stats'
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 0 3 * *'
+
+jobs:
+  update-browserslist-stats:
+    runs-on: self-hosted
+
+    env:
+      NO_POST_INSTALL: 1
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: true
+          fetch-depth: 1
+
+      - name: Git version checker
+        id: git_version
+        uses: ./.github/actions/git-version-checker
+        with:
+          head_ref: '${{ github.head_ref }}'
+
+      - name: Setup node & pnpm
+        uses: ./.github/actions/setup-node
+        with:
+          token: ${{ secrets.GH_PAT }}
+          user_mail: ${{ secrets.GH_EMAIL }}
+
+      - name: Update @tokopedia/browserslist-config
+        run: pnpm up @tokopedia/browserslist-config --dev
+
+      - name: Update caniuse-lite
+        run: pnpm dlx browserslist@latest --update-db
+
+      - name: Set current date
+        run: echo "UPDATE_DATE=$(date "+%Y/%m")" >> $GITHUB_ENV
+
+      - name: Create Pull request
+        id: cpr
+        uses: peter-evans/create-pull-request@v3
+        with:
+          base: master
+          # Please replace with your own github username
+          assignees: irfan-maulana-tkp
+          token: ${{ secrets.GH_PAT }}
+          branch: 'actions/update-browserlist-stats'
+          branch-suffix: timestamp
+          body: 'Update `@tokopedia/browserslist-config` and `caniuse-lite` dependency.'
+          title: 'chore: browserslist stats monthly update ${{ env.UPDATE_DATE }}'
+          commit-message: 'chore: browserslist stats monthly update ${{ env.UPDATE_DATE }}'
+          team-reviewers: wpe-skippercore-dev
+          add-paths: |
+            pnpm-lock.yaml
+            package.json
+
+      - name: Summarize Process
+        if: ${{ steps.cpr.outputs.pull-request-number }}
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
+

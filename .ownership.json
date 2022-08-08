@@ -1,0 +1,16 @@
+{
+  "description": "Service lite-test-skipper-actions by Skipper-Framework",
+  "app": [
+    {
+      "name": "lite-test-skipper-actions",
+      "description": "Service lite-test-skipper-actions by Skipper-Framework",
+      "owner": "dendi.sunardi@tokopedia.com",
+      "slack_channel": "mobile-web-hub"
+    }
+  ],
+  "directorate": "TECH",
+  "last_update": "8/8/2022",
+  "namespace": "tokopedia-lite",
+  "repository_name": "tokopedia-lite-test-skipper-actions",
+  "security_owner": "pradhana.indra@tokopedia.com"
+}

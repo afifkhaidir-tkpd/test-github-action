@@ -1,0 +1,22 @@
+# Skipper Framework
+# Created date: 8/8/2022
+
+version: '3'
+services:
+  skipper-app:
+    image: $REGISTRY_SERVER/test-skipper-actions:$GIT_COMMIT
+    restart: always
+    volumes:
+      - ${PWD}/.env:/code/.env
+    ports:
+      - $KRATOS_PORT:3000
+    networks:
+      - br0-docker-feature
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '1m'
+
+networks:
+  br0-docker-feature:
+    external: true

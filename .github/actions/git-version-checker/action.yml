@@ -1,0 +1,33 @@
+name: Git version checker
+
+description: Check git version and output
+
+inputs:
+  head_ref:
+    description: 'Head branch'
+    required: true
+
+outputs:
+  git_version:
+    description: 'Git version'
+    value: ${{ steps.extract_git_version.outputs.git_version }}
+
+runs:
+  using: composite
+  steps:
+    - name: Check head_ref
+      shell: bash
+      run: echo '${{ inputs.head_ref }}'
+
+    - name: Check Git version
+      shell: bash
+      run: git --version
+
+    - name: Extract git version
+      shell: bash
+      run: echo "::set-output name=git_version::$(git --version)"
+      id: extract_git_version
+
+    - name: Re-check Git version from prev step
+      shell: bash
+      run: echo ${{ steps.extract_git_version.outputs.git_version }}

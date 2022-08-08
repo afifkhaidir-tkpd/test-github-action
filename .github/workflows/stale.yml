@@ -1,0 +1,23 @@
+# https://github.com/actions/starter-workflows/blob/main/automation/stale.yml
+name: Stale issues and pull requests
+
+on:
+  schedule:
+    # https://crontab.guru/#15_16_*_*_6
+    - cron: '15 16 * * 6'
+
+jobs:
+  stale:
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/stale@v4
+        timeout-minutes: 10
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          days-before-stale: 30
+          days-before-close: 3
+          stale-issue-message: 'This Issue has been inactive for more than 30 days, will close in 3 days.'
+          stale-pr-message: 'This PR has been inactive for more than 30 days, will close in 3 days.'
+          stale-issue-label: 'no-issue-activity'
+          stale-pr-label: 'no-pr-activity'
