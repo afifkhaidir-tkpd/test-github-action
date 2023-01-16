@@ -1,0 +1,25 @@
+name: 'Test if std out'
+
+on:
+  workflow_dispatch:
+  
+jobs:
+  test-if:
+    runs-on: self-hosted
+    
+    steps:
+      - name: Set variables
+        id: set_var
+        shell: bash
+        run: |
+          echo "condition1=true" >> $GITHUB_OUTPUT
+          echo "condition2=false" >> $GITHUB_OUTPUT
+          echo "condition3=true" >> $GITHUB_OUTPUT
+          
+      - name: print-if-true-false
+        shell: bash
+        run: echo "${{ steps.set_var.outputs.condition1 && steps.set_var.outputs.condition2 && 'success' || 'failed' }}"
+      
+      - name: print-if-true-true
+        shell: bash
+        run: echo "${{ steps.set_var.outputs.condition1 && steps.set_var.outputs.condition3 && 'success' || 'failed' }}"
