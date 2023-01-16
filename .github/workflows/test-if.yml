@@ -29,8 +29,8 @@ jobs:
           
       - name: print-if-true-false
         shell: bash
-        run: echo "${{ steps.set_var.outputs.condition1 && steps.set_var.outputs.condition2 && 'success' || 'failed' }}"
+        run: echo "${{ (steps.set_var.outputs.condition1 && steps.set_var.outputs.condition2) && 'success' || 'failed' }}"
       
       - name: print-if-true-true
         shell: bash
-        run: echo "${{ steps.set_var.outputs.condition1 && steps.set_var.outputs.condition3 && steps.set_data.outputs.data || 'failed' }}"
+        run: echo "${{ (steps.set_var.outputs.condition1 && steps.set_var.outputs.condition3) && steps.set_data.outputs.data || 'failed' }}"
