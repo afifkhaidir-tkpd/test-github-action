@@ -19,18 +19,13 @@ jobs:
       - name: Set data
         id: set_data
         shell: bash
-        run: >
-          echo
-          'data={
-          "success": true,
-          "failed": false
-          }'
-          >> $GITHUB_OUTPUT
-          
-      - name: print-if-true-false
-        shell: bash
-        run: echo "${{ (steps.set_var.outputs.condition1 == 'true' && steps.set_var.outputs.condition2 == 'true') && 'success' || 'failed' }}"
-      
-      - name: print-if-true-true
-        shell: bash
-        run: echo "${{ (steps.set_var.outputs.condition1 == 'true' && steps.set_var.outputs.condition3 == 'true') && steps.set_data.outputs.data || 'failed' }}"
+        run: |
+          BUILD_RESULT=success
+          DEPLOY_RESULT=failure
+          OVERALL_RESULT="failure"
+          if [[ $BUILD_RESULT == 'success' || $BUILD_RESULT == 'skipped' && $DEPLOY_RESULT == 'success' ]]
+          then
+            OVERALL_RESULT="success"
+          fi
+
+          echo "status=$OVERALL_RESULT"
