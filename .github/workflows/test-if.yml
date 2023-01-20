@@ -23,9 +23,12 @@ jobs:
           BUILD_RESULT=success
           DEPLOY_RESULT=failure
           OVERALL_RESULT="failure"
-          if [[ ($BUILD_RESULT == 'success' || $BUILD_RESULT == 'skipped') && $DEPLOY_RESULT == 'success' ]]
+          if [[ $BUILD_RESULT == 'success' || $BUILD_RESULT == 'skipped' ]]
           then
-            OVERALL_RESULT="success"
+            if [[ $DEPLOY_RESULT == 'success' ]]
+            then
+              OVERALL_RESULT="success"
+            fi
           fi
 
           echo "status=$OVERALL_RESULT"
