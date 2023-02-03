@@ -8,6 +8,18 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        
+      - name: Test remove directory
+        working-directory: ./src
+        run: |
+          find ./components -mindepth 1 -name Header -prune -o -exec rm -rf {} +
+          
+      - name: Output directory list
+        working-directory: ./src
+        run: ls -al ./components
+        
       - name: Set variables
         id: set_var
         shell: bash
