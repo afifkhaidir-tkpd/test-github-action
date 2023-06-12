@@ -19,7 +19,8 @@ jobs:
 
     steps:
       - name: Logging
-        shell: echo "TEST"
+        shell: bash
+        run: echo "TEST"
         
       - name: semantic-pull-request
         timeout-minutes: 3
