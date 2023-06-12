@@ -10,11 +10,11 @@ on:
       - synchronize
 
 jobs:
-  pr-title-check:
+  pr-title-check-test:
     runs-on: self-hosted
 
     concurrency:
-      group: skipper-pr-title-${{ github.head_ref }}
+      group: pr-title-${{ github.head_ref }}
       cancel-in-progress: true
 
     steps:
