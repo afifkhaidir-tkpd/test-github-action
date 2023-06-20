@@ -17,10 +17,12 @@ jobs:
       - name: Get issue title
         id: get_issue_title
         uses: actions/github-script@v6
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
         with:
           script: |
             const issueTitle = {
-              title: '${{ github.event.issue.title }}'
+              title: '$ISSUE_TITLE'
             };
             
             return JSON.stringify(issueTitle);
