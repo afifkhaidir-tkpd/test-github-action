@@ -25,7 +25,8 @@ jobs:
             
             console.log(ISSUE_TITLE, '${{ github.event.issue.title }}');
             const issueTitle = {
-              title: ISSUE_TITLE
+              title: ISSUE_TITLE,
+              titleExpression: '${{ github.event.issue.title }}'
             };
             
             return JSON.stringify(issueTitle);
