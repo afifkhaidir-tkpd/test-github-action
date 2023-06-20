@@ -1,29 +1,31 @@
 # Read more on https://github.com/amannn/action-semantic-pull-request
-name: 'Test Lint PR'
+name: 'Ci Playground'
 
 on:
-  pull_request:
-    branches: [main, master]
-    types:
-      - opened
-      - edited
-      - synchronize
+  issues:
+    types: [opened]
 
 jobs:
-  pr-title-check-test:
-    runs-on: self-hosted
-
-    concurrency:
-      group: pr-title-${{ github.head_ref }}
-      cancel-in-progress: true
+  issue_logger:
+    runs-on: ubuntu
 
     steps:
       - name: Logging
         shell: bash
-        run: echo "TEST"
+        run: echo "START TEST"
         
-      - name: semantic-pull-request
-        timeout-minutes: 3
-        uses: amannn/action-semantic-pull-request@v3.4.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Get issue title
+        id: get_issue_title
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const issueTitle = {
+              title: '${{ github.event.issue.title }}'
+            };
+            
+            return JSON.stringify(issueTitle);
+            
+      - name: Log issue title
+        shell: bash
+        run: echo "${{ steps.get_issue_title.outputs.result }}"
+            
