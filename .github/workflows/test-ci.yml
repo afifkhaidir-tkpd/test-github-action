@@ -22,8 +22,7 @@ jobs:
         with:
           script: |
             const { ISSUE_TITLE } = process.env
-            
-            console.log(ISSUE_TITLE, '${{ github.event.issue.title }}');
+
             const issueTitle = {
               title: ISSUE_TITLE,
               titleExpression: '${{ github.event.issue.title }}'
