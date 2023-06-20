@@ -21,8 +21,9 @@ jobs:
           ISSUE_TITLE: ${{ github.event.issue.title }}
         with:
           script: |
+            const { ISSUE_TITLE } = process.env
             const issueTitle = {
-              title: '$ISSUE_TITLE'
+              title: ISSUE_TITLE
             };
             
             return JSON.stringify(issueTitle);
